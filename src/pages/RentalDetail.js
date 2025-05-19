@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { fetchRentalById } from '../actions';
 import RentalInfo from 'components/rental/RentalInfo';
 
+import BookingReserve from 'components/booking/BookingReserve';
+
 const RentalDetail = ({ rental, isFetching, dispatch }) => {
   const { id } = useParams(); // Using useParams to get the rental ID from the URL
 
@@ -11,7 +13,7 @@ const RentalDetail = ({ rental, isFetching, dispatch }) => {
     dispatch(fetchRentalById(id)); // Fetch the rental details when component mounts
   }, [dispatch, id]);
 
-  if (isFetching) return <p>Loading...</p>;
+  if (isFetching || !rental._id) { return null; }
 
   return (
     <section id="rentalDetails">
@@ -31,7 +33,9 @@ const RentalDetail = ({ rental, isFetching, dispatch }) => {
           <div className="col-md-8">
             <RentalInfo rental={rental} />
           </div>
-          <div className="col-md-4">BOOKING</div>
+          <div className="col-md-4">
+            <BookingReserve rental={rental}/>
+          </div>
         </div>
       </div>
     </section>
