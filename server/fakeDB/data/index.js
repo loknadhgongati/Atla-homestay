@@ -1,8 +1,18 @@
+const mongoose = require('mongoose');
+
+const user1Id = mongoose.Types.ObjectId();
+const user2Id = mongoose.Types.ObjectId();
+
+
+
+
 exports.users = [{
+  _id: user1Id,
   username: "Test User",
   email: "test@gmail.com",
   password: "testtest"
 }, {
+  _id: user2Id,
   username: "Test User2",
   email: "test2@gmail.com",
   password: "testtest2"
@@ -17,7 +27,8 @@ exports.rentals = [{
     numOfRooms: 1,
     shared: false,
     description: "Luxury unit featuring a private jacuzzi, home theater, and exclusive patio for premium stays.",
-    dailyPrice: 2500
+    dailyPrice: 2500,
+    owner: user1Id
   },
   {
     title: "Modern apartment in center",
@@ -28,7 +39,8 @@ exports.rentals = [{
     numOfRooms: 2,
     shared: false,
     description: "Standard 1-bedroom units with a private kitchen, ideal for families seeking more privacy.",
-    dailyPrice: 2500
+    dailyPrice: 2500,
+    owner: user1Id
   },
   {
     title: "Old house in nature",
@@ -39,6 +51,7 @@ exports.rentals = [{
     numOfRooms: 3,
     shared: true,
     description: "Spacious 2-bedroom suite, perfect for families or groups, offering a comfortable living experience.",
-    dailyPrice: 2300
+    dailyPrice: 2300,
+    owner: user1Id
   }
 ];

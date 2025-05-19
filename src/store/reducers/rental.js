@@ -14,7 +14,7 @@ const initRentalReducer = () => {
 
   const isFetching = (state = false, action) => {
     switch (action.type) {
-      case 'IS_FETCHING_RENTAL':
+      case 'UNMOUNT_RENTAL':
         return true;
       case 'FETCH_RENTAL_BY_ID':
         return false;
