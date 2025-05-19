@@ -1,102 +1,118 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
-const RentalForm = () => {
+const rentalOptions = ['apartment', 'condo', 'house'];
+
+const RentalForm = ({ onSubmit }) => {
+  const { register, handleSubmit } = useForm();
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form-group">
         <label htmlFor="title">Title</label>
-        <input 
+        <input
+          {...register("title")}
           type="text"
           className="form-control"
-          id="title"/>
+          id="title"
+        />
       </div>
 
       <div className="form-group">
         <label htmlFor="city">City</label>
-        <input 
+        <input
+          {...register("city")}
           type="text"
           className="form-control"
-          id="city"/>
+          id="city"
+        />
       </div>
 
       <div className="form-group">
         <label htmlFor="street">Street</label>
-        <input 
+        <input
+          {...register("street")}
           type="text"
           className="form-control"
-          id="street"/>
+          id="street"
+        />
       </div>
 
       <div className="form-group">
         <label htmlFor="category">Category</label>
-
-        <select className="form-control"
-                id="category">
-          <option> Something 1 </option>
-          <option> Something 2 </option>
+        <select
+          {...register("category")}
+          className="form-control"
+          id="category"
+        >
+          {rentalOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
         </select>
       </div>
 
       <div className="form-group">
-        <label htmlFor="bedrooms">Image Url</label>
-        <input 
+        <label htmlFor="image">Image Url</label>
+        <input
+          {...register("image")}
           type="text"
           className="form-control"
-          id="image"/>
+          id="image"
+        />
       </div>
 
       <div className="form-group">
-        <label htmlFor="bedrooms">Rooms</label>
-        <input 
+        <label htmlFor="numOfRooms">Rooms</label>
+        <input
+          {...register("numOfRooms")}
           type="number"
           className="form-control"
-          id="numOfRooms"/>
+          id="numOfRooms"
+        />
       </div>
 
       <div className="form-group">
         <label htmlFor="description">Description</label>
-        <textarea 
+        <textarea
+          {...register("description")}
           rows="5"
-          type="text"
           className="form-control"
-          id="description">
-        </textarea>
+          id="description"
+        />
       </div>
 
       <div className="form-group">
-        <label htmlFor="dailyRate">Daily Price</label>
+        <label htmlFor="dailyPrice">Daily Price</label>
         <div className="input-group">
           <div className="input-group-prepend">
             <div className="input-group-text">$</div>
           </div>
-          <input 
+          <input
+            {...register("dailyPrice")}
             type="number"
             className="form-control"
-            id="dailyPrice"/>
+            id="dailyPrice"
+          />
         </div>
       </div>
 
       <div className="form-group">
-        <label htmlFor="phone">Phone</label>
-        <input 
-          type="text"
-          className="form-control"
-          id="phone"/>
+        <label htmlFor="shared">Shared</label>
+        <input
+          {...register("shared")}
+          type="checkbox"
+          className="form-check-input"
+          id="shared"
+        />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="shared">Shared</label>
-        <input 
-          type="checkbox"
-          className="form-control"
-          id="shared"/>
-      </div>
-      <button 
-        type="submit"
-        className="btn btn-bwm-main">Create
+      <button type="submit" className="btn btn-bwm-main">
+        Create
       </button>
     </form>
-  )
-}
+  );
+};
 
 export default RentalForm;
