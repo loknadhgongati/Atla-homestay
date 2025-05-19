@@ -1,11 +1,9 @@
 import React from 'react';
-import {
-  Routes,
-  Route
-} from "react-router-dom";
+import { Routes, Route } from 'react-router-dom';
 
 import RentalHome from './pages/RentalHome';
 import RentalDetail from './pages/RentalDetail';
+import RentalNew from './pages/RentalNew';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import SecretPage from './pages/SecretPage';
@@ -21,9 +19,10 @@ const AppRoutes = () => {
         <Route path="/" element={<RentalHome />} />
         <Route path="/rentals/:id" element={<RentalDetail />} />
 
-        {/* Protected route */}
+        {/* Protected routes */}
         <Route element={<AuthRoute />}>
           <Route path="/secret" element={<SecretPage />} />
+          <Route path="/rentals/new" element={<RentalNew />} />
         </Route>
 
         {/* Guest-only routes */}

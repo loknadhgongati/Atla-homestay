@@ -38,14 +38,13 @@ const Header = ({ username, isAuth, logout }) => {
                         {isAuth &&
                             <>
                                 <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Manage
                                     </a>
                                     <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a className="dropdown-item" href="#">Action</a>
-                                        <a className="dropdown-item" href="#">Another action</a>
-                                        <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" href="#">Something else here</a>
+                                        <Link
+                                            className="dropdown-item"
+                                            to="/rentals/new">New Rental</Link>
                                     </div>
                                 </li>
                                 <li className="nav-item">
@@ -80,11 +79,11 @@ const Header = ({ username, isAuth, logout }) => {
     )
 }
 
-const mapStateToProps = ({auth: {username, isAuth}}) => {
+const mapStateToProps = ({ auth: { username, isAuth } }) => {
     return {
-      username,
-      isAuth
+        username,
+        isAuth
     }
-  }
-  
-  export default connect(mapStateToProps)(Header);
+}
+
+export default connect(mapStateToProps)(Header);
