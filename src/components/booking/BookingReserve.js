@@ -1,7 +1,10 @@
 import React from 'react';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import BwmModal from 'components/shared/Modal';
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+ 
+const moment = extendMoment(Moment);
 
 
 class BookingReserve extends React.Component {
@@ -33,13 +36,23 @@ class BookingReserve extends React.Component {
     })
   }
 
+  processAditionalData = () => {
+    this.setState({
+      proposedBooking: {
+        ...this.state.proposedBooking,
+        nights: this.nights,
+        totalPrice: this.totalPrice
+      }
+    })
+  }
+
   checkInvalidDates = (date) => {
     // if date is invalid return true
     return date < moment().add(-1, 'days');
   }
 
   handleGuestsChange = (event) => {
-    // TODO: explain destracturizing
+    
     this.setState({
       proposedBooking: {
         ...this.state.proposedBooking,
@@ -52,6 +65,23 @@ class BookingReserve extends React.Component {
     alert(JSON.stringify(this.state.proposedBooking));
   }
 
+  get nights() {
+    const { startAt, endAt } = this.state.proposedBooking;
+    if (!startAt || !endAt) { return null; }
+    const range = moment.range(startAt, endAt);
+    return Array.from(range.by('days')).length - 1;
+  }
+
+  get totalPrice() {
+    const { rental: { dailyPrice}} = this.props;
+    return dailyPrice && this.nights * dailyPrice; 
+  }
+
+  get isBookingValid() {
+    const { startAt, endAt, guests} = this.state.proposedBooking;
+    return startAt && endAt && guests;
+  }
+
   get formattedDate() {
     return this.dateRef.current ? this.dateRef.current.value : '';
   }
@@ -59,7 +89,7 @@ class BookingReserve extends React.Component {
 
   render() {
     const { rental } = this.props;
-    const { proposedBooking } = this.state;
+    const { proposedBooking: { nights, guests, totalPrice}} = this.state;
     return (
       <div className='booking'>
         <h3 className='booking-price'>$ {rental.dailyPrice} <span className='booking-per-night'>per night</span></h3>
@@ -83,7 +113,7 @@ class BookingReserve extends React.Component {
           <label htmlFor='guests'>Guests</label>
           <input
             onChange={this.handleGuestsChange}
-            value={proposedBooking.guests}
+            value={guests}
             type='number'
             className='form-control'
             id='guests'
@@ -96,13 +126,15 @@ class BookingReserve extends React.Component {
           subtitle={this.formattedDate}
           openBtn={
             <button 
+              onClick={this.processAditionalData}
+              disabled={!this.isBookingValid}
               className='btn btn-bwm-main btn-block'>Reserve place now
             </button>}
         >
-          <em>12</em> Nights /
+          <em>{nights}</em> Nights /
           <em> ${rental.dailyPrice}</em> per Night
-          <p>Guests: <em>{proposedBooking.guests}</em></p>
-          <p>Price: <em>$200</em></p>
+          <p>Guests: <em>{guests}</em></p>
+          <p>Price: <em>${totalPrice}</em></p>
           <p>Do you confirm your booking for selected days?</p>
         </BwmModal>
         <hr></hr>
